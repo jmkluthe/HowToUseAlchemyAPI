@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Howtousealchemyapi by jmkluthe</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>
+			A Re-examination
+			<!-- dropdown menu taken from example from W3Schools http://www.w3schools.com/howto/howto_css_dropdown.asp -->
+			<span class="dropdown" style="float:right;">
+				<button class="dropbtn">Quick Link Menu</button>
+				<div class="dropdown-content">
+					<a href="index.html">Welcome</a>
+					<a href="p2.html">Get a Key</a>
+					<a href="p3.html">Some Notes on the API</a>
+					<a href="p4.html">Make a Simple Call</a>
+					<a href="p5.html">Examining Parts of the Call</a>
+					<a href="p6.html">Make a Targeted Call</a>
+					<a href="p7.html">Unleash the Full Power</a>
+					<a href="p8.html">Where to Next?</a>
+				</div>
+			</span>
+		</h1>
+		
+        <p>A more detailed analysis of our source</p>
+      </header>
+      <section>
+
+		<h3>What Else Can We Do?</h3>
+	  
+		<p>The previous analysis we submitted to AlchemyAPI really included nothing more than the URL of a webpage, so the analysis that was returned was simply an analysis of the document as a whole. AlchemyAPI can perform far more detailed analysis, however. To get this analysis, we have to include additional parameters in our payload, and point the request at a different endpoint. The changes made are shown in the following lines of code, while everything else in our script has remained the same:</p>
+
+		<pre><code>
+var endpoint = "http://gateway-a.watsonplatform.net/calls/url/URLGetTargetedSentiment";
+		
+var urlSent = "url=http://www1.cs.columbia.edu/~unger/articles/technologyProgress.html";	
+var outMode = "outputMode=json";
+var targets = "targets=science|technology";
+var payload = apiKey + "&" + urlSent + "&" + outMode + "&" + targets;
+
+var totalURL = endpoint + "?" + payload;
+
+req.open("GET", totalURL, true);
+		</code></pre>
+		
+		<p>Here, we have changed the endpoint to that which is indicated in the documentation, and added two targets to our payload. Instead of examining the sentiment as a whole, the AI will use its natual language processing abilities to determine how the author has written about these <em>specific</em> phrases. The results are as follows:</p>
+		<img src="images/Response2.JPG">
+
+		<p>Now this is an interesting development! Although the overall document sentiment appeared negative, the AI finds that the author writes positively in regard to the specific phrases "science" and "technology". So, we have learned that in order to avoid extermination from our coming robot overlords, it would be wise to write positively about them anywhere they might be able to analyze it.</p>	
+		
+		<div>
+			<a href="p5.html"><button class="next" style="float: left;">Back</button></a>
+			<a href="p7.html"><button class="next" style="float: right;">Next</button></a>
+		</div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/jmkluthe">jmkluthe</a></p>
+	  <p>Text Analysis by <a href="http://www.alchemyapi.com">AlchemyAPI</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>

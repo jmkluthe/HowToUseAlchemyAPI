@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Howtousealchemyapi by jmkluthe</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>
+			The Query and Response
+			<!-- dropdown menu taken from example from W3Schools http://www.w3schools.com/howto/howto_css_dropdown.asp -->
+			<span class="dropdown" style="float:right;">
+				<button class="dropbtn">Quick Link Menu</button>
+				<div class="dropdown-content">
+					<a href="index.html">Welcome</a>
+					<a href="p2.html">Get a Key</a>
+					<a href="p3.html">Some Notes on the API</a>
+					<a href="p4.html">Make a Simple Call</a>
+					<a href="p5.html">Examining Parts of the Call</a>
+					<a href="p6.html">Make a Targeted Call</a>
+					<a href="p7.html">Unleash the Full Power</a>
+					<a href="p8.html">Where to Next?</a>
+				</div>
+			</span>
+		</h1>
+		
+        <p>How to get the information we want, and what it means.</p>
+      </header>
+      <section>
+
+		<h3>More About the Payload</h3>
+
+		<p>The payload we sent was constructed out of three key value pairs in the following four lines:</p>
+		
+		<pre><code>
+var apiKey = "apikey=yourkey";
+var urlSent = "url=http://www1.cs.columbia.edu/~unger/articles/technologyProgress.html";	
+var outMode = "outputMode=json";
+var payload = apiKey + "&" + urlSent + "&" + outMode;
+		</code></pre>
+
+		<p>The first is simply your API key. The second indicates the URL of the webpage we want to be analyzed, which is <a href="http://www1.cs.columbia.edu/~unger/articles/technologyProgress.html">an article</a> discussing whether technology is always beneficial. The third indicates how we want to receive our response. In this case, I have chosen a JSON object, but other options are available. We can add additional key-value pairs in order to get more detailed information, but for now lets look at the response:</p>
+		<img src="images/Response1.JPG">
+		<p>Here I am only showing the data received in order to keep my key hidden. We see that the request and response worked, and some terms of use, and then the URL sent and the number of transactions used (remember we have 1000 per day). Now, the interesting data that we wanted. The AI thinks that there were mixed opinions presented, indicated by "mixed": "1" instead of "mixed": "0", but that the overall sentiment was slightly negative. The score here can range from -1 to +1, so this score is not far from neutral.</p>
+		<p>Pretty cool, huh? Well, OK, slightly cool. If this was all AlchemyAPI could do, it would not be worth all the trouble. So next, lets look at some of the other information we can get out of piece of text...</p>
+		
+		<div>
+			<a href="p4.html"><button class="next" style="float: left;">Back</button></a>
+			<a href="p6.html"><button class="next" style="float: right;">Next</button></a>
+		</div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/jmkluthe">jmkluthe</a></p>
+	  <p>Text Analysis by <a href="http://www.alchemyapi.com">AlchemyAPI</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>

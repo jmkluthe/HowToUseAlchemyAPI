@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Howtousealchemyapi by jmkluthe</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>
+			Let's Make a Call!
+			<!-- dropdown menu taken from example from W3Schools http://www.w3schools.com/howto/howto_css_dropdown.asp -->
+			<span class="dropdown" style="float:right;">
+				<button class="dropbtn">Quick Link Menu</button>
+				<div class="dropdown-content">
+					<a href="index.html">Welcome</a>
+					<a href="p2.html">Get a Key</a>
+					<a href="p3.html">Some Notes on the API</a>
+					<a href="p4.html">Make a Simple Call</a>
+					<a href="p5.html">Examining Parts of the Call</a>
+					<a href="p6.html">Make a Targeted Call</a>
+					<a href="p7.html">Unleash the Full Power</a>
+					<a href="p8.html">Where to Next?</a>
+				</div>
+			</span>
+		</h1>
+		
+        <p>A simple AJAX GET request.</p>
+      </header>
+      <section>
+
+		<h3>What is AJAX?</h3>
+
+		<p>AJAX stands for Asynchronous JavaScript and XML, and it allows us to make API requests asynchronously, meaning we make the request and then the rest of the code gets executed without having to wait for a response from the request. This is very important, because sometimes responses can take a while, and sometimes they might not come at all! Luckily, all of this is built right into your browser, so we just need to write it up.</p>
+		<p>In the code examples, you will see me using the term "apikey". This means YOUR API key, which you just signed up for. I will not show you my key, so you will have to implement all this code yourself with your own key to get similar results.</p>
+
+		<h3>What is a GET request?</h3>
+
+		<p>GET requests simply send information to a server through the url, generally with the expectation of getting a response of some kind. We will start very simply by using the sentiment analysis function. This takes a webpage and analyzes it to see whether the author felt positively or negatively about the subject.</p>
+		
+		<p>To submit the request and view the response, we will set up a simple webpage with a submit button to submit the request and fields to display the information sent and the information returned. The HTML is as follows:</p>
+		
+		<pre><code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;meta charset="UTF-8"&gt;
+		&lt;title&gt;Alchemy API Tester&lt;/title&gt;
+		&lt;link rel="stylesheet" href="stylesheet.css" type="text/css"&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;h1&gt;Click Submit for Results of AJAX GET call to AlchemyAPI.&lt;/h1&gt;
+	&lt;input type="submit" id="subData"&gt;&lt;/input&gt;
+	&lt;p&gt;Data sent: &lt;span id="sent"&gt;&lt;/span&gt;&lt;/p&gt;
+	&lt;p&gt;Data received: &lt;span id="recd"&gt;&lt;/span&gt;&lt;/p&gt;
+	&lt;script src="examples.js"&gt;&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+		</code></pre>
+		
+		<p>The span with the "sent" ID will display the information we will send to AlchemyAPI, and the span with ID "recd" will show the information returned. Of course, none of this happens unless we click the button to send the request, which is all implemented in the "examples.js" JavaScript file. The request is as follows:
+		
+		<pre><code>
+document.addEventListener("DOMContentLoaded", bindButton);
+
+function bindButton() {
+	//bind the submit data to Alchemy api button
+	document.getElementById("subData").addEventListener("click", function(event) {
+		var req = new XMLHttpRequest();
+		
+		var apiKey = "apikey=yourkey";
+		var urlSent = "url=http://www1.cs.columbia.edu/~unger/articles/technologyProgress.html";	
+		var outMode = "outputMode=json";
+		var payload = apiKey + "&" + urlSent + "&" + outMode;
+		
+		req.open("GET", "http://gateway-a.watsonplatform.net/calls/url/URLGetTextSentiment?" + payload, true);
+		req.addEventListener("load", function() {
+			document.getElementById("sent").textContent = payload;
+			if(req.status >= 200 && req.status < 400) {
+				var response = JSON.parse(req.responseText);
+				document.getElementById("recd").textContent = req.responseText;
+			} else {
+				document.getElementById("recd").textContent = "There was an error.";
+			}			
+		});
+		req.send(null);
+		event.preventDefault();		
+	});
+}
+		</code></pre>
+		
+		<p>The first line executes the bindButton function when the content loads, which causes the GET request to be sent when the submit button is clicked. It sends this request by opening up an XMLHttpRequest object. The line starting with req.open declares the request method to be GET, sends the request data, and indicates true to show that this is an asynchronous call. The next line creates a callback function that will execute whenever the response is received. This allows the rest of the javascript to execute without waiting for a response. If the response is good, the information will be printed out. Otherwise, an error message will print. Finally, the request is actually sent, and event.preventDefault(); is called to prevent the default GET action, which is to go to the actual url in the req.open directive.</p>
+		
+		<p>The URL inside req.open is called the endpoint of the API. The endpoint itself is the url http://gateway-a.watsonplatform.net/calls/url/URLGetTextSentiment, and we append a question mark and key value pairs to this to make our request. The key value pairs are represented as "key=value" and are separated by ampersands. This makes up the query, or as it is called in this code the payload. This is the information we send to the API endpoint for it to use in generating a response. We will talk more about this payload and the response we get on the next page.</p>
+		
+		<div>
+			<a href="p3.html"><button class="next" style="float: left;">Back</button></a>
+			<a href="p5.html"><button class="next" style="float: right;">Next</button></a>
+		</div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/jmkluthe">jmkluthe</a></p>
+	  <p>Text Analysis by <a href="http://www.alchemyapi.com">AlchemyAPI</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>

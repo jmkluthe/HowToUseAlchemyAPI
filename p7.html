@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Howtousealchemyapi by jmkluthe</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>
+			Unleashing the Full Power of AlchemyAPI
+			<!-- dropdown menu taken from example from W3Schools http://www.w3schools.com/howto/howto_css_dropdown.asp -->
+			<span class="dropdown" style="float:right;">
+				<button class="dropbtn">Quick Link Menu</button>
+				<div class="dropdown-content">
+					<a href="index.html">Welcome</a>
+					<a href="p2.html">Get a Key</a>
+					<a href="p3.html">Some Notes on the API</a>
+					<a href="p4.html">Make a Simple Call</a>
+					<a href="p5.html">Examining Parts of the Call</a>
+					<a href="p6.html">Make a Targeted Call</a>
+					<a href="p7.html">Unleash the Full Power</a>
+					<a href="p8.html">Where to Next?</a>
+				</div>
+			</span>
+		</h1>
+		
+        <p>A detailed analysis of sentiment about different entities.</p>
+      </header>
+      <section>
+
+		<h3>OK, Now What?</h3>
+
+		<p>In our previous examples, the AI basically counted up positive and negative terminolgoy in the article as a whole, or counted them up in reference to specific words or phrases we indicated to it. This is still impressive for a computer program, but we can do much more. AlchemyAPI is able to identify the important entities, which are things like people, companies, professions, etc..., in an article, rank them by relevance, and determine how the article talks about each of them. In fact, it is able to do much more than that, but for clarity we will restrict some of its capabilities so our tiny human brains (don't hurt me, robot overlords!) can understand what is being described.</p>
+		
+		<p>This process is called entity extraction, and the full documentation is available <a href="https://www.alchemyapi.com/api/entity/urls.html#rurl">here</a>. We will implement it with the following code (only the code between "var req" and "req.addEventListener" has changed, but I want to show the full script one last time):</p>
+		
+		<pre><code>
+document.addEventListener("DOMContentLoaded", bindButton);
+
+function bindButton() {
+	//bind the submit data to Alchemy api button
+	document.getElementById("subData").addEventListener("click", function(event) {
+		var req = new XMLHttpRequest();
+		
+		var endpoint = "http://gateway-a.watsonplatform.net/calls/url/URLGetRankedNamedEntities";
+		
+		var apikey = "apikey=yourkeyhere";
+		var urlSent = "url=http://www1.cs.columbia.edu/~unger/articles/technologyProgress.html";	
+		var outMode = "outputMode=json";
+		var sentiment = "sentiment=1";
+		var disamb = "disambiguate=0";
+		var linked = "linkedData=0";
+		var coref = "coreference=0";
+		var struc = "structuredEntities=0";
+		var max = "maxRetrieve=10";
+		
+		var payload = apiKey + "&" + urlSent + "&" + outMode + "&" + sentiment + "&" + disamb + "&" + linked + "&" + coref + "&" + struc + "&" + max;
+		
+		var totalURL = endpoint + "?" + payload;
+		
+		req.open("GET", totalURL, true);
+		req.addEventListener("load", function() {
+			document.getElementById("sent").textContent = payload;
+			if(req.status >= 200 && req.status < 400) {
+				var response = JSON.parse(req.responseText);
+				document.getElementById("recd").textContent = req.responseText;
+			} else {
+				document.getElementById("recd").textContent = "There was an error.";
+			}			
+		});
+		req.send(null);
+		event.preventDefault();		
+	});
+}		
+		</code></pre>
+
+		<p>Each of the variables setting a key equal to 0 actually <em>turn off</em> a function, because there is simply too much information if they are turned on. "sentiment=1" tells the API that we want it to evaluate the sentiment regarding the entities, and "maxRetrieve=10" tells it we only want to see results for the ten most relevant entities. The results are as follows:</p>	
+		
+		<img src="images/Response3.JPG">
+		
+		<p>Now we finally have a truly interesting result. We can see that the AI is able to parse out various entities referenced in the article, correctly identify the type of entity, and give us information regarding how the article author wrote about the entity. This is a fairly contrived example, of course, but one can easily see how useful and interesting it would be to use AlchemyAPI to examine different types of articles and content, and any number of applications could be built upon this capability.
+		
+		<div>
+			<a href="p6.html"><button class="next" style="float: left;">Back</button></a>
+			<a href="p8.html"><button class="next" style="float: right;">Next</button></a>
+		</div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/jmkluthe">jmkluthe</a></p>
+	  <p>Text Analysis by <a href="http://www.alchemyapi.com">AlchemyAPI</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
