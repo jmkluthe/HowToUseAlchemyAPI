@@ -41,7 +41,7 @@
 
 		<h3>What Else Can We Do?</h3>
 	  
-		<p>The previous analysis we submitted to AlchemyAPI really included nothing more than the URL of a webpage, so the analysis that was returned was simply an analysis of the document as a whole. AlchemyAPI can perform far more detailed analysis, however. To get this analysis, we have to include additional parameters in our payload, and point the request at a different endpoint. The changes made are shown in the following lines of code, while everything else in our script has remained the same:</p>
+		<p>The previous analysis we submitted to AlchemyAPI really included nothing more than the URL of a webpage, so the analysis that was returned was simply an analysis of the document as a whole. AlchemyAPI can perform far more detailed analysis, however. The analysis we will look at is called a targeted sentiment analysis, and shows us the text sentiment regarding specific targets, and the documentation is available <a href="http://www.alchemyapi.com/api/sentiment/urls.html#targetedsentiment">here</a>. To get this analysis, we have to include additional parameters in our payload, and point the request at a different endpoint. The changes made are shown in the following lines of code, while everything else in our script has remained the same:</p>
 
 		<pre><code>
 var endpoint = "http://gateway-a.watsonplatform.net/calls/url/URLGetTargetedSentiment";
